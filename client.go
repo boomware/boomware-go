@@ -30,7 +30,7 @@ func New(credentials string) Boomware {
 func (b *boomware) setCredential(credentials string) {
 	uc := strings.Split(credentials, ":")
 	if len(uc) != 2 {
-		panic("boomware: invalid credentials")
+		panic("boomware: invalid credentials. Please make sure that you provide correct access token.")
 	}
 	b.user = uc[0]
 	b.pass = uc[1]
