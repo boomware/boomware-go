@@ -38,6 +38,7 @@ func TestBoomware_request(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
 		assert.Equal(t, "PATCH", r.Method)
+		assert.Equal(t, "/example/api", r.RequestURI)
 		user, pass, ok := r.BasicAuth()
 		assert.True(t, ok)
 		assert.Equal(t, "user", user)
@@ -68,4 +69,46 @@ func TestBoomware_request(t *testing.T) {
 	apiErr := b.request("PATCH", "/example/api", request, response)
 	assert.NoError(t, apiErr)
 	assert.Equal(t, "aa7d0899-38bd-4fba-a270-a76f4d7e8b5d", response.ID)
+}
+
+func TestBoomware_request_error(t *testing.T) {
+
+	// Set fake server
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
+		assert.Equal(t, "POST", r.Method)
+		assert.Equal(t, "/example/api", r.RequestURI)
+		user, pass, ok := r.BasicAuth()
+		assert.True(t, ok)
+		assert.Equal(t, "user", user)
+		assert.Equal(t, "pass", pass)
+		body, err := ioutil.ReadAll(r.Body)
+		assert.NoError(t, err)
+		assert.Equal(t, "{\"number\":\"+12\"}", string(body))
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write([]byte(`{"errorCode":11, "errorReason": "Invalid number"}`))
+	}))
+	defer server.Close()
+
+	b := New("user:pass").(*boomware)
+	// set url of a fake server
+	b.endpoint = server.URL
+
+	// Make a request data struct
+	request := &struct {
+		Number string `json:"number"`
+	}{
+		Number: "+12",
+	}
+
+	// Make a response data struct
+	response := &struct {
+		ID string `json:"requestId"`
+	}{}
+
+	apiErr := b.request("POST", "/example/api", request, response)
+	assert.Error(t, apiErr)
+	assert.Equal(t, InvalidNumberErrorCode, apiErr.Code)
+	assert.Equal(t, "Invalid number", apiErr.Reason)
+	t.Log(apiErr)
 }
