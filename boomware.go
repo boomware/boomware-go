@@ -8,4 +8,7 @@ type Boomware interface {
 	Verify(r *VerifyRequest) *Response
 	VerifyCheck(r *VerifyCheckRequest) *VerifyCheckResponse
 	VerifyInfo(r *VerifyInfoRequest) *VerifyInfoResponse
+
+	// Insight
+	Insight(r *InsightRequest) *InsightResponse
 }

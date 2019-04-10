@@ -43,3 +43,10 @@ type VerifyCheckRequest struct {
 type VerifyInfoRequest struct {
 	ID string `json:"requestId"`
 }
+
+// /v1/insight
+
+type InsightRequest struct {
+	// phone number in e164 format *required
+	Number string
+}
