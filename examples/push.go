@@ -44,6 +44,20 @@ func main() {
 		"acme2": []string{"bang", "whiz"},
 	}
 
+	// If you use param `Android` `Text` and `Title` will be ignored
+	// Custom message for FCM
+	request.Android = &boomware.MessagingPushAndroid{
+		// Custom data provided to client
+		Data: map[string]interface{}{
+			"acme1": "bar",
+		},
+		Notification: &boomware.AndroidNotification{
+			Title: "Game Request",
+			Body:  "Bob wants to play poker",
+			Sound: "sound",
+		},
+	}
+
 	// Sent push
 	response := client.MessagingPush(request)
 	if response.Error != nil {
