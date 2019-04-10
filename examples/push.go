@@ -21,19 +21,21 @@ func main() {
 	// Required param number in e164 format https://en.wikipedia.org/wiki/E.164
 	request.Number = "79052273940"
 
-	// Optional params
+	// Make simple notification with text and title
 	request.Text = "hi!"
-	request.Title = "Game request"
+	request.Title = "New title awesome!"
 
+	// If you use param `IOS` `Text` and `Title` will be ignored
 	// Custom configuration for push notification ios optional
 	request.IOS = map[string]interface{}{
-		"apn": map[string]interface{}{
+		"aps": map[string]interface{}{
 			"alert": map[string]interface{}{
 				"title":          "Game Request",
 				"body":           "Bob wants to play poker",
 				"action-loc-key": "PLAY",
 			},
 			"badge": 5,
+			"sound": "default",
 		},
 		"acme1": "bar",
 		"acme2": []string{"bang", "whiz"},
