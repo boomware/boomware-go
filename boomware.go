@@ -1,5 +1,4 @@
 package boomware
 
-type Boowmware interface {
-
+type Boomware interface {
 }
