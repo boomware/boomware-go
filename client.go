@@ -45,6 +45,15 @@ func (b *boomware) SMS(r *SMSRequest) *Response {
 	return response
 }
 
+func (b *boomware) CallsFlash(r *CallsFlashRequest) *Response {
+	response := new(Response)
+	err := b.request(http.MethodPost, "/v1/calls/flash", r, response)
+	if err != nil {
+		response.Error = err
+	}
+	return response
+}
+
 func (b *boomware) Verify(r *VerifyRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/verify", r, response)

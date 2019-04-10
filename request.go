@@ -16,6 +16,14 @@ type SMSRequest struct {
 	Text string `json:"text"`
 }
 
+// /v1/calls/flash
+
+type CallsFlashRequest struct {
+	Request
+	// Optional param e164 number
+	From string `json:"from,omitempty"`
+}
+
 // /v1/verify
 
 type VerifyMethod string

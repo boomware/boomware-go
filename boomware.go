@@ -5,6 +5,9 @@ type Boomware interface {
 	// For more info https://boomware.com/docs/en/#SMS
 	SMS(r *SMSRequest) *Response
 
+	// Flash call
+	CallsFlash(r *CallsFlashRequest) *Response
+
 	// Number verification api
 	// More info https://boomware.com/docs/en/#Verification
 	Verify(r *VerifyRequest) *Response
