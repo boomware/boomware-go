@@ -14,4 +14,8 @@ type Boomware interface {
 	// Insight
 	// More info https://boomware.com/docs/en/#Insight
 	Insight(r *InsightRequest) *InsightResponse
+
+	// Messaging
+	// Push
+	MessagingPush(r *MessagingPushRequest) *Response
 }

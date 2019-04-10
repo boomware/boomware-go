@@ -84,6 +84,15 @@ func (b *boomware) Insight(r *InsightRequest) *InsightResponse {
 	return response
 }
 
+func (b *boomware) MessagingPush(r *MessagingPushRequest) *Response {
+	response := new(Response)
+	err := b.request(http.MethodPost, "/v1/messaging/push", r, response)
+	if err != nil {
+		response.Error = err
+	}
+	return response
+}
+
 // private
 
 func (b *boomware) request(method, urn string, request interface{}, response interface{}) *Error {

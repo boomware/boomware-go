@@ -50,3 +50,39 @@ type InsightRequest struct {
 	// phone number in e164 format *required
 	Number string
 }
+
+// /v1/messaging/push
+
+type MessagingPushTarget string
+
+const (
+	MessagingPushTargetAll  MessagingPushTarget = "all"
+	MessagingPushTargetLast MessagingPushTarget = "last"
+)
+
+type MessagingPushPriority string
+
+const (
+	MessagingPushPriorityHigh   MessagingPushPriority = "high"
+	MessagingPushPriorityNormal MessagingPushPriority = "normal"
+)
+
+type MessagingPushAndroid struct {
+	Data         map[string]interface{} `json:"data,omitempty"`
+	Notification map[string]interface{} `json:"notification,omitempty"`
+}
+
+type MessagingPushRequest struct {
+	Request
+
+	Title string `json:"title,omitempty"`
+	Text  string `json:"text,omitempty"`
+
+	Target      MessagingPushTarget   `json:"target,omitempty"`
+	TimeToLive  int                   `json:"ttl,omitempty"`
+	Priority    MessagingPushPriority `json:"priority,omitempty"`
+	CollapseKey string                `json:"collapseKey,omitempty"`
+
+	Android *MessagingPushAndroid  `json:"android,omitempty"`
+	IOS     map[string]interface{} `json:"ios,omitempty"`
+}
