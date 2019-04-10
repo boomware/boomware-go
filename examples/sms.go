@@ -23,7 +23,7 @@ func main() {
 	// Required param text
 	request.Text = "hi!"
 
-	// Sent sms
+	// Send sms
 	response := client.SMS(request)
 	if response.Error != nil {
 		log.Println("sending sms error", response.Error)

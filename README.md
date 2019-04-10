@@ -11,7 +11,7 @@ request := new(boomware.SMSRequest)
 request.Number = "+18000000000"
 request.Text = "hi!"
 
-// Sent sms
+// Send sms
 response := client.SMS(request)
 
 if response.Error != nil {
