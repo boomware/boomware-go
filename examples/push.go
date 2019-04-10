@@ -26,7 +26,10 @@ func main() {
 	request.Title = "New title awesome!"
 
 	// If you use param `IOS` `Text` and `Title` will be ignored
-	// Custom configuration for push notification ios optional
+	// Custom configuration for apns
+	// Form more details visit apple doc
+	// https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CreatingtheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH10-SW1
+	// https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html#//apple_ref/doc/uid/TP40008194-CH17-SW1
 	request.IOS = map[string]interface{}{
 		"aps": map[string]interface{}{
 			"alert": map[string]interface{}{
