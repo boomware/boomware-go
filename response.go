@@ -2,7 +2,7 @@ package boomware
 
 type Response struct {
 	// Error of the request nil if the request was succeeded
-	Error *Error `json:"-"`
+	Error Error `json:"-"`
 	// If request succeeded contains request id
 	ID string `json:"requestId"`
 }
@@ -10,7 +10,7 @@ type Response struct {
 type VerifyCheckResponse struct {
 	// Error of the request nil if the request was succeeded
 	// Opposite details of the error
-	Error *Error `json:"-"`
+	Error Error `json:"-"`
 
 	// Verified number in e164 format
 	Number string `json:"number"`
@@ -30,7 +30,7 @@ const (
 type VerifyInfoResponse struct {
 	// Error of the request nil if the request was succeeded
 	// Opposite details of the error
-	Error *Error `json:"-"`
+	Error Error `json:"-"`
 
 	Status                  VerifyStatus `json:"status"`
 	Number                  string       `json:"number"`

@@ -108,7 +108,7 @@ func TestBoomware_request_error(t *testing.T) {
 
 	apiErr := b.request("POST", "/example/api", request, response)
 	assert.Error(t, apiErr)
-	assert.Equal(t, InvalidNumberErrorCode, apiErr.Code)
-	assert.Equal(t, "Invalid number", apiErr.Reason)
+	assert.Equal(t, InvalidNumberErrorCode, apiErr.GetCode())
+	assert.Equal(t, "Invalid number", apiErr.GetReason())
 	t.Log(apiErr)
 }

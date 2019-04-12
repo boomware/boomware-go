@@ -104,7 +104,7 @@ func (b *boomware) MessagingPush(r *MessagingPushRequest) *Response {
 
 // private
 
-func (b *boomware) request(method, urn string, request interface{}, response interface{}) *Error {
+func (b *boomware) request(method, urn string, request interface{}, response interface{}) Error {
 
 	url := b.endpoint + urn
 

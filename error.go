@@ -2,42 +2,59 @@ package boomware
 
 import "fmt"
 
-type Error struct {
-	Code   int    `json:"errorCode"`
-	Reason string `json:"errorReason"`
+type Error interface {
+	error
+	fmt.Stringer
+	GetCode() ErrorCode
+	GetReason() string
 }
 
-func (e *Error) Error() string {
+type boomwareError struct {
+	Code   ErrorCode `json:"errorCode"`
+	Reason string    `json:"errorReason"`
+}
+
+func (e *boomwareError) GetCode() ErrorCode {
+	return e.Code
+}
+
+func (e *boomwareError) GetReason() string {
+	return e.Reason
+}
+
+func (e *boomwareError) Error() string {
 	return e.String()
 }
 
-func (e *Error) String() string {
+func (e *boomwareError) String() string {
 	return fmt.Sprintf("boomware: error:%d reason:%s", e.Code, e.Reason)
 }
 
-func NewError(code int, reason string) *Error {
-	return &Error{Code: code, Reason: reason}
+func NewError(code ErrorCode, reason string) Error {
+	return &boomwareError{Code: code, Reason: reason}
 }
+
+type ErrorCode int
 
 const (
 	// Api errors
 	// For more info please visit https://boomware.com/docs/en/#Errors
 	//
-	InternalServerErrorCode    = 99
-	AuthRequiredErrorCode      = 1
-	InactiveAccountErrorCode   = 2
-	TooManyRequestsErrorCode   = 4
-	InactiveTokenErrorCode     = 5
-	InsufficientFundsErrorCode = 6
-	InvalidRequestErrorCode    = 10
-	InvalidNumberErrorCode     = 11
-	SenderNotAllowedErrorCode  = 16
+	InternalServerErrorCode    ErrorCode = 99
+	AuthRequiredErrorCode      ErrorCode = 1
+	InactiveAccountErrorCode   ErrorCode = 2
+	TooManyRequestsErrorCode   ErrorCode = 4
+	InactiveTokenErrorCode     ErrorCode = 5
+	InsufficientFundsErrorCode ErrorCode = 6
+	InvalidRequestErrorCode    ErrorCode = 10
+	InvalidNumberErrorCode     ErrorCode = 11
+	SenderNotAllowedErrorCode  ErrorCode = 16
 
 	// System errors
-	UnknownErrorCode        = 1000
-	MarshalRequestErrorCode = 1001
-	CreateRequestErrorCode  = 1002
-	DoRequestErrorCode      = 1003
-	ReadBodyErrorCode       = 1004
-	UnmarshalErrorCode      = 1005
+	UnknownErrorCode        ErrorCode = 1000
+	MarshalRequestErrorCode ErrorCode = 1001
+	CreateRequestErrorCode  ErrorCode = 1002
+	DoRequestErrorCode      ErrorCode = 1003
+	ReadBodyErrorCode       ErrorCode = 1004
+	UnmarshalErrorCode      ErrorCode = 1005
 )
