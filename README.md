@@ -14,8 +14,8 @@ request.Text = "hi!"
 // Send sms
 response := client.SMS(request)
 
-if response.Error != nil {
-    log.Println("sending sms error", response.Error)
+if response.Err() != nil {
+    log.Println("sending sms error", response.Err())
 } else {
     log.Println("successfully sent sms, id:", response.ID)
 }

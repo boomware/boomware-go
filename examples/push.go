@@ -60,8 +60,8 @@ func main() {
 
 	// Send push
 	response := client.MessagingPush(request)
-	if response.Error != nil {
-		log.Println("sending push error", response.Error)
+	if response.Err() != nil {
+		log.Println("sending push error", response.Err())
 	} else {
 		log.Println("successfully sent push, id:", response.ID)
 	}

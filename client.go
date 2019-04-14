@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type boomware struct {
@@ -21,7 +23,22 @@ const endpoint = "https://api.boomware.com"
 
 func New(credentials string) Boomware {
 	b := new(boomware)
-	b.HttpClient = &http.Client{}
+	b.HttpClient = &http.Client{
+		Timeout: time.Second * 15,
+		Transport: &http.Transport{
+			MaxIdleConns:          256,
+			MaxConnsPerHost:       128,
+			MaxIdleConnsPerHost:   128,
+			IdleConnTimeout:       65 * time.Second,
+			ResponseHeaderTimeout: 15 * time.Second,
+			TLSHandshakeTimeout:   5 * time.Second,
+			DialContext: (&net.Dialer{
+				Timeout:   15 * time.Second,
+				KeepAlive: 30 * time.Second,
+				DualStack: true,
+			}).DialContext,
+		},
+	}
 	b.endpoint = endpoint
 	b.setCredential(credentials)
 	return b
@@ -40,7 +57,7 @@ func (b *boomware) SMS(r *SMSRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/sms", r, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
 	return response
 }
@@ -49,7 +66,7 @@ func (b *boomware) CallsFlash(r *CallsFlashRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/calls/flash", r, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
 	return response
 }
@@ -58,7 +75,7 @@ func (b *boomware) Verify(r *VerifyRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/verify", r, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
 	return response
 }
@@ -67,8 +84,9 @@ func (b *boomware) VerifyCheck(r *VerifyCheckRequest) *VerifyCheckResponse {
 	response := new(VerifyCheckResponse)
 	err := b.request(http.MethodPost, "/v1/verify/check", r, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
+	response.ID = r.ID
 	return response
 }
 
@@ -76,8 +94,9 @@ func (b *boomware) VerifyInfo(r *VerifyInfoRequest) *VerifyInfoResponse {
 	response := new(VerifyInfoResponse)
 	err := b.request(http.MethodPost, "/v1/verify/info", r, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
+	response.ID = r.ID
 	return response
 }
 
@@ -88,7 +107,7 @@ func (b *boomware) Insight(r *InsightRequest) *InsightResponse {
 	urn := fmt.Sprintf("/v1/insight/hlr?number=%s", r.Number)
 	err := b.request(http.MethodGet, urn, nil, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
 	return response
 }
@@ -97,7 +116,7 @@ func (b *boomware) MessagingPush(r *MessagingPushRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/messaging/push", r, response)
 	if err != nil {
-		response.Error = err
+		response.err = err
 	}
 	return response
 }
