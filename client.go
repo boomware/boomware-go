@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"net"
 	"net/http"
 	"strings"
 	"time"
 )
 
 type boomware struct {
-	HttpClient *http.Client
+	httpClient *http.Client
 	endpoint   string
 	user       string
 	pass       string
@@ -21,27 +20,19 @@ type boomware struct {
 
 const endpoint = "https://api.boomware.com"
 
-func New(credentials string) Boomware {
+func NewHttp(client *http.Client, credentials string) Boomware {
 	b := new(boomware)
-	b.HttpClient = &http.Client{
-		Timeout: time.Second * 15,
-		Transport: &http.Transport{
-			MaxIdleConns:          256,
-			MaxConnsPerHost:       128,
-			MaxIdleConnsPerHost:   128,
-			IdleConnTimeout:       65 * time.Second,
-			ResponseHeaderTimeout: 15 * time.Second,
-			TLSHandshakeTimeout:   5 * time.Second,
-			DialContext: (&net.Dialer{
-				Timeout:   15 * time.Second,
-				KeepAlive: 30 * time.Second,
-				DualStack: true,
-			}).DialContext,
-		},
-	}
+	b.httpClient = client
 	b.endpoint = endpoint
 	b.setCredential(credentials)
 	return b
+}
+
+func New(credentials string) Boomware {
+	httpClient := &http.Client{
+		Timeout: 60 * time.Second,
+	}
+	return NewHttp(httpClient, credentials)
 }
 
 func (b *boomware) setCredential(credentials string) {
@@ -146,7 +137,7 @@ func (b *boomware) request(method, urn string, request interface{}, response int
 	req.Header.Set("User-Agent", "Boomware/1.0")
 	req.SetBasicAuth(b.user, b.pass)
 
-	resp, err := b.HttpClient.Do(req)
+	resp, err := b.httpClient.Do(req)
 	if err != nil {
 		return NewError(DoRequestErrorCode, fmt.Sprintf("http request:%s error %s", urn, err.Error()))
 	}

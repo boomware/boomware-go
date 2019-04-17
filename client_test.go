@@ -14,7 +14,7 @@ func TestNew(t *testing.T) {
 	assert.Equal(t, "user", b.(*boomware).user)
 	assert.Equal(t, "pass", b.(*boomware).pass)
 	assert.Equal(t, endpoint, b.(*boomware).endpoint)
-	assert.NotNil(t, b.(*boomware).HttpClient)
+	assert.NotNil(t, b.(*boomware).httpClient)
 }
 
 func TestBoomware_setCredentials(t *testing.T) {
