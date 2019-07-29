@@ -49,6 +49,7 @@ const (
 	InvalidRequestErrorCode    ErrorCode = 10
 	InvalidNumberErrorCode     ErrorCode = 11
 	SenderNotAllowedErrorCode  ErrorCode = 16
+	RequestExpiredErrorCode    ErrorCode = 22
 
 	// System errors
 	UnknownErrorCode        ErrorCode = 1000
