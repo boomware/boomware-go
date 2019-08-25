@@ -1,6 +1,8 @@
 package boomware
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Error interface {
 	error
@@ -46,11 +48,17 @@ const (
 	TooManyRequestsErrorCode         ErrorCode = 4
 	InactiveTokenErrorCode           ErrorCode = 5
 	InsufficientFundsErrorCode       ErrorCode = 6
+	ForbiddenErrorCode               ErrorCode = 7
+	AccountMisconfiguredErrorCode    ErrorCode = 8
+	RejectedErrorCode                ErrorCode = 9
 	InvalidRequestErrorCode          ErrorCode = 10
 	InvalidNumberErrorCode           ErrorCode = 11
 	SenderNotAllowedErrorCode        ErrorCode = 16
+	RequestNotFoundErrorCode         ErrorCode = 20
 	InvalidVerificationCodeErrorCode ErrorCode = 21
 	RequestExpiredErrorCode          ErrorCode = 22
+	TooManyAttemptsErrorCode         ErrorCode = 23
+	MethodNotAllowedErrorCode        ErrorCode = 25
 
 	// System errors
 	UnknownErrorCode        ErrorCode = 1000
