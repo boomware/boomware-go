@@ -40,16 +40,17 @@ const (
 	// Api errors
 	// For more info please visit https://boomware.com/docs/en/#Errors
 	//
-	InternalServerErrorCode    ErrorCode = 99
-	AuthRequiredErrorCode      ErrorCode = 1
-	InactiveAccountErrorCode   ErrorCode = 2
-	TooManyRequestsErrorCode   ErrorCode = 4
-	InactiveTokenErrorCode     ErrorCode = 5
-	InsufficientFundsErrorCode ErrorCode = 6
-	InvalidRequestErrorCode    ErrorCode = 10
-	InvalidNumberErrorCode     ErrorCode = 11
-	SenderNotAllowedErrorCode  ErrorCode = 16
-	RequestExpiredErrorCode    ErrorCode = 22
+	InternalServerErrorCode          ErrorCode = 99
+	AuthRequiredErrorCode            ErrorCode = 1
+	InactiveAccountErrorCode         ErrorCode = 2
+	TooManyRequestsErrorCode         ErrorCode = 4
+	InactiveTokenErrorCode           ErrorCode = 5
+	InsufficientFundsErrorCode       ErrorCode = 6
+	InvalidRequestErrorCode          ErrorCode = 10
+	InvalidNumberErrorCode           ErrorCode = 11
+	SenderNotAllowedErrorCode        ErrorCode = 16
+	InvalidVerificationCodeErrorCode ErrorCode = 21
+	RequestExpiredErrorCode          ErrorCode = 22
 
 	// System errors
 	UnknownErrorCode        ErrorCode = 1000
