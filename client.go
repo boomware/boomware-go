@@ -113,6 +113,18 @@ func (b *boomware) MessagingPush(r *MessagingPushRequest) *Response {
 	return response
 }
 
+// Info
+
+func (b *boomware) RequestInfo(requestID string) *InfoResponse {
+	response := new(InfoResponse)
+	path := fmt.Sprintf("/v1/requests/%s", requestID)
+	err := b.request(http.MethodGet, path, nil, response)
+	if err != nil {
+		response.err = err
+	}
+	return response
+}
+
 // private
 
 func (b *boomware) request(method, path string, request interface{}, response interface{}) Error {

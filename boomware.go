@@ -21,4 +21,8 @@ type Boomware interface {
 	// Messaging
 	// Push
 	MessagingPush(r *MessagingPushRequest) *Response
+
+	// Info
+	// For more info https://boomware.com/docs/en/#RequestInfo
+	RequestInfo(requestID string) *InfoResponse
 }

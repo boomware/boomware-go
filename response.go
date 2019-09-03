@@ -60,3 +60,28 @@ type InsightResponse struct {
 	Ported  bool          `json:"ported"`
 	Roaming bool          `json:"roaming"`
 }
+
+// Request Info
+
+type InfoResponse struct {
+	// Error of the request nil if the request was succeeded
+	err Error
+
+	ID        string                 `json:"id"`
+	Product   string                 `json:"product"`
+	Number    string                 `json:"number"`
+	MCCMNC    string                 `json:"mccmnc"`
+	Network   string                 `json:"network"`
+	Country   string                 `json:"country"`
+	Status    string                 `json:"status"`
+	CreatedAt int64                  `json:"createdAt"`
+	Payload   map[string]interface{} `json:"payload,omitempty"`
+
+	Rate   float64  `json:"rate,omitempty"`
+	Sender string   `json:"sender,omitempty"`
+	Goals  []string `json:"goals,omitempty"`
+}
+
+func (r *InfoResponse) Err() Error {
+	return r.err
+}
