@@ -49,7 +49,7 @@ func (b *boomware) SMS(r *SMSRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/sms", r, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	return response
 }
@@ -58,7 +58,7 @@ func (b *boomware) CallsFlash(r *CallsFlashRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/calls/flash", r, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	return response
 }
@@ -67,7 +67,7 @@ func (b *boomware) Verify(r *VerifyRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/verify", r, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	return response
 }
@@ -76,7 +76,7 @@ func (b *boomware) VerifyCheck(r *VerifyCheckRequest) *VerifyCheckResponse {
 	response := new(VerifyCheckResponse)
 	err := b.request(http.MethodPost, "/v1/verify/check", r, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	response.ID = r.ID
 	return response
@@ -86,7 +86,7 @@ func (b *boomware) VerifyInfo(r *VerifyInfoRequest) *VerifyInfoResponse {
 	response := new(VerifyInfoResponse)
 	err := b.request(http.MethodPost, "/v1/verify/info", r, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	response.ID = r.ID
 	return response
@@ -99,7 +99,7 @@ func (b *boomware) Insight(r *InsightRequest) *InsightResponse {
 	path := fmt.Sprintf("/v1/insight/hlr?number=%s", url.QueryEscape(r.Number))
 	err := b.request(http.MethodGet, path, nil, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	return response
 }
@@ -108,7 +108,7 @@ func (b *boomware) MessagingPush(r *MessagingPushRequest) *Response {
 	response := new(Response)
 	err := b.request(http.MethodPost, "/v1/messaging/push", r, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	return response
 }
@@ -120,7 +120,7 @@ func (b *boomware) RequestInfo(requestID string) *InfoResponse {
 	path := fmt.Sprintf("/v1/requests/%s", requestID)
 	err := b.request(http.MethodGet, path, nil, response)
 	if err != nil {
-		response.err = err
+		response.Error = err
 	}
 	return response
 }

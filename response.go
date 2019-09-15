@@ -2,14 +2,14 @@ package boomware
 
 type Response struct {
 	// Error of the request nil if the request was succeeded
-	err Error
+	Error Error
 
 	// If request succeeded contains request id
 	ID string `json:"requestId"`
 }
 
 func (r *Response) Err() Error {
-	return r.err
+	return r.Error
 }
 
 type VerifyCheckResponse struct {
@@ -65,7 +65,7 @@ type InsightResponse struct {
 
 type InfoResponse struct {
 	// Error of the request nil if the request was succeeded
-	err Error
+	Error Error
 
 	ID        string                 `json:"id"`
 	Product   string                 `json:"product"`
@@ -83,5 +83,5 @@ type InfoResponse struct {
 }
 
 func (r *InfoResponse) Err() Error {
-	return r.err
+	return r.Error
 }
